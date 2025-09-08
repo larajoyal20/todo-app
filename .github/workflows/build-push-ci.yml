@@ -21,7 +21,9 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}:latest .
+          docker build \
+            --label "org.opencontainers.image.source=https://github.com/${{ github.repository }}" \
+            -t ghcr.io/${{ github.repository }}:latest .
 
       - name: Push Docker image
         run: |
