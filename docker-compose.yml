@@ -1,0 +1,12 @@
+services:
+  app:
+    image: ghcr.io/larajoyal20/todo-app:latest
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      MONGODB_HOST: <your-mongodb-host>
+      MONGODB_USER: <your-mongodb-username>
+      MONGODB_PASSWORD: <your-mongodb-password>
+      MONGODB_DATABASE: <your-database-name>
+      JWT_TokenKey: <your-secret-key>
