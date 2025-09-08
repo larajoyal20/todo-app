@@ -52,7 +52,7 @@ const updateUser=async(req,res)=>{
 const getUser=async(req,res)=>{
     try{
         let user = await Users.find();
-        return res.send(`List of user from DB ,${user}`);
+        return res.send(user);
     }
     catch(error){
         return res.status(200).send(error.message)
