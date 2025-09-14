@@ -13,10 +13,6 @@ const createTask=async(req,res)=>{
         if(!user){
             return res.status(404).send("Invalid User_id");
          }
-    user=await Users.findById(user_id);
-    if(!user){
-        return res.send("Invalid User_id")
-    }
     let task = new Task({
     ..._.pick(req.body, ["title", "description", "status", "priority", "duedate", "category"]),
     user: user._id
@@ -25,6 +21,14 @@ const createTask=async(req,res)=>{
     return res.send(task)
 }
 const UpdateTask=async(req,res)=>{
+    let user_id=req.header("User_id");
+        if(!user_id) {
+            return res.status(400).send("User_Id not found");
+        }   
+        user=await Users.findById(user_id);
+        if(!user){
+            return res.status(404).send("Invalid User_id");
+         }
     let {error}=updateTaskCheck(req.body);
     if(error){
         return res.status(400).send(error.message);
@@ -68,6 +72,14 @@ const getTaskDetailsByID=async(req,res)=>{
     return res.send(getTask);
 }
 const deleteTask=async(req,res)=>{
+    let user_id=req.header("User_id");
+        if(!user_id) {
+            return res.status(400).send("User_Id not found");
+        }   
+        user=await Users.findById(user_id);
+        if(!user){
+            return res.status(404).send("Invalid User_id");
+         }
     let removeTask=await Task.findByIdAndDelete(req.params.id)
     if(!removeTask){
         return res.status(400).send("Task not found");
