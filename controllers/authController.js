@@ -28,7 +28,7 @@ const signin=async(req,res)=>{
       return res.status(400).send("Invalid email/username or password");
     }
     let token=user.generateAuthToken();
-    let session=new Session({token,user_id:user._id})
+    let session=new Session({token,user_id:user._id,name:user.name});
     await session.save()
 
     return res.set({"x-auth-token":token,"session-ID":session._id, "User_id":user._id}).send( {message: "Login successful",
