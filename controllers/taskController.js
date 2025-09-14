@@ -1,7 +1,7 @@
 const mongoose=require("mongoose");
 const _=require("lodash");
 const Task=require("../models/toDoTaskModel");
-
+const scheduleTask=require("../scheduler/job")
 const Users=require("../models/userModels")
 const {createTaskCheck,updateTaskCheck}=require("../validations/taskJoiValidation");
 const createTask=async(req,res)=>{
@@ -14,10 +14,11 @@ const createTask=async(req,res)=>{
             return res.status(404).send("Invalid User_id");
          }
     let task = new Task({
-    ..._.pick(req.body, ["title", "description", "status", "priority", "duedate", "category"]),
-    user: user._id
-});
+    ..._.pick(req.body, ["title", "description", "status", "priority", "duedate", "category"]),user: user._id});
     await task.save();
+    if(req.body.duedate){
+        scheduleTask({title:req.body.title,duedate:req.body.duedate,status:req.body.status})
+    }
     return res.send(task)
 }
 const UpdateTask=async(req,res)=>{
