@@ -7,7 +7,9 @@ MONGODB_HOST,
 MONGODB_USER,
 MONGODB_PASSWORD,
 MONGODB_DATABASE,
-JWT_TokenKey
+JWT_TokenKey,
+HOST,
+REDIS_PORT
 }=process.env;
 
 /*
@@ -25,5 +27,7 @@ module.exports={
     node_env,
     port,
     mongoURI,
-    JWT_TokenKey
+    JWT_TokenKey,
+    HOST,
+    REDIS_PORT
 }
