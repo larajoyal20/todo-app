@@ -2,7 +2,7 @@ const mongoose=require("mongoose");
 const _=require("lodash");
 const Users=require("../models/userModels");
 const routers=require("../routers/users");
-const {signUpDetails,UpdateUserDetails,signInCheck}=require("../validations/userJoiValidation");
+const {signUpDetails,updateUserDetails,signInCheck}=require("../validations/userJoiValidation");
 const express=require("express");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
@@ -23,7 +23,7 @@ const createUser= async(req,res)=>{
     return res.send("Acoount created",_.pick(user,["email","name"]))
 }
 const updateUser=async(req,res)=>{
-    let {error} = UpdateUserDetails(req.body)
+    let {error} = updateUserDetails(req.body)
     if(error){
         return res.status(400).send(error.details[0].message)
     }
@@ -37,7 +37,8 @@ const updateUser=async(req,res)=>{
     }
     let updateData={
         name:req.body.name,
-        email: req.body.email
+        email: req.body.email,
+        password: req.body.password
     }
     if(req.body.password){
         let salt = await bcrypt.genSalt(10);
@@ -45,8 +46,8 @@ const updateUser=async(req,res)=>{
     }
      user = await Users.findByIdAndUpdate(req.params.id,updateData,{ new: true});
     return res.json({
-      message: "User updated successfully",
-      data: _.pick(user, ["_id", "name", "email"])
+        message: "User updated successfully",
+        data: _.pick(user, ["_id", "name", "email"])
     });
 }
 const getUser=async(req,res)=>{
