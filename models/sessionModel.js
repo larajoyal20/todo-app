@@ -11,7 +11,12 @@ const sessionSchema=mongoose.Schema({
     name:{
         type:String,
         required:true
-    }
+    },
+    createdAt: {
+         type: Date,
+         default: Date.now,
+         expires: 600
+  }
 },{ timestamps: true })
 const session=mongoose.model("session",sessionSchema);
 module.exports=session;
