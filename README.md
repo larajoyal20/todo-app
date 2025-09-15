@@ -9,6 +9,8 @@ A RESTful API for managing users and to-do tasks, built with Node.js, Express, a
 - CRUD operations for users and tasks
 - Input validation using Joi
 - Protected routes for task operations
+- Background job scheduling with BullMQ (for overdue task notifications)
+- Email notifications via SMTP (Nodemailer)
 
 ## Project Structure
 
@@ -21,6 +23,8 @@ A RESTful API for managing users and to-do tasks, built with Node.js, Express, a
 ├── middleware/
 ├── models/
 ├── routers/
+├── scheduler/
+│   └── worker.js
 ├── validations/
 ├── package.json
 └── .env
@@ -32,6 +36,8 @@ A RESTful API for managing users and to-do tasks, built with Node.js, Express, a
 
 - Node.js
 - MongoDB (Atlas or local)
+- Redis (for BullMQ job queue)
+- SMTP credentials (for email notifications)
 
 ### Installation
 
@@ -58,9 +64,17 @@ A RESTful API for managing users and to-do tasks, built with Node.js, Express, a
    MONGODB_PASSWORD=<your-mongodb-password>
    MONGODB_DATABASE=<your-database-name>
    JWT_TokenKey=<your-secret-key>
+   REDIS_HOST=localhost
+   REDIS_PORT=6379
+   SMTP_HOST=smtp.example.com
+   SMTP_PORT=587
+   SMTP_USER=your_email@example.com
+   SMTP_PASS=your_email_password
    ```
 
 ### Running the App
+
+Start the main server:
 
 ```sh
 node app.js
@@ -70,6 +84,12 @@ Or with nodemon for development:
 
 ```sh
 npx nodemon app.js
+```
+
+Start the background worker (for scheduled jobs and email notifications):
+
+```sh
+node scheduler/worker.js
 ```
 
 ## API Endpoints
@@ -103,4 +123,4 @@ ISC
 
 ---
 
-**Author:** [Joyal Lara Thangarasu]
+**Author:** Joyal Lara Thangarasu
