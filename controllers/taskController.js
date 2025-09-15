@@ -14,10 +14,10 @@ const createTask=async(req,res)=>{
             return res.status(404).send("Invalid User_id");
          }
     let task = new Task({
-    ..._.pick(req.body, ["title", "description", "status", "priority", "duedate", "category"]),user: user._id});
+    ..._.pick(req.body, ["title", "description", "status", "priority", "duedate", "category"]),user:user._id});
     await task.save();
     if(req.body.duedate){
-        scheduleTask({title:req.body.title,duedate:req.body.duedate,status:req.body.status})
+        scheduleTask({title:req.body.title,duedate:req.body.duedate,status:req.body.status,email:user.email})
     }
     return res.send(task)
 }
