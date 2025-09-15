@@ -7,7 +7,7 @@ async function schedulerTask(task){
     const now=Date.now();
     const delay=new Date(task.duedate).getTime() - now;
         console.log(delay)
-        await Queue.add("task", schedulertask.toObject(),{delay})
+        await Queue.add("task",{ _id: schedulertask._id },{ delay: delay > 0 ? delay : 0 } )
         console.log(`Task scheduled for ${task.duedate}`)
 }
-module.exports=schedulerTask
+module.exports = schedulerTask;

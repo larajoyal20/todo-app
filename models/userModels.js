@@ -12,7 +12,7 @@ const userSchema=mongoose.Schema({
     password:String,
 })
 userSchema.methods.generateAuthToken=function(){
-    let token=jwt.sign({_id:this._id,email:this.email},config.JWT_TokenKey,{ expiresIn: "5m" })
+    let token=jwt.sign({_id:this._id,email:this.email},config.JWT_TokenKey,{ expiresIn: "1000m" })
     return token;
 }
 const Users=mongoose.model("to-do-user",userSchema);

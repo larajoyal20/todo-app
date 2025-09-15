@@ -15,8 +15,8 @@ const sessionSchema=mongoose.Schema({
     createdAt: {
          type: Date,
          default: Date.now,
-         expires: 600
   }
 },{ timestamps: true })
+sessionSchema.index({ createdAt: 1 }, { expireAfterSeconds: 120 });
 const session=mongoose.model("session",sessionSchema);
 module.exports=session;
